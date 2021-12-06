@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChartJS Testing</title>
+</head>
+<body>
+  <div>
+    <canvas id="canvas">
+
+    </canvas>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="application/javascript">
+    const canvas = document.querySelector("canvas");
+
+    const labels = [];
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'My First dataset',
+        backgroundColor: '#008080',
+        borderColor: '#008080',
+        fill: true,
+        data: [],
+      }]
+    };
+    const config = { type: 'line', data: data, options: {}};
+    let myChart = new Chart(canvas, config);
+  
+    const updateData = (chart, label, data) => {
+      if (chart.data.labels.length > 20) {
+        chart.data.labels.shift();
+      }
+      chart.data.labels.push(label);
+      chart.data.datasets.forEach((dataset) => {
+        if (dataset.data.length > 20) {
+          dataset.data.shift();
+        }
+        dataset.data.push(data);
+      });
+      chart.update();
+    }
+
+    setInterval(() => {
+      updateData(myChart, new Date().getSeconds(), Math.random());
+    }, 1000);
+  </script>
+</body>
+</html>
